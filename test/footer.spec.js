@@ -9,7 +9,7 @@ describe('Footer', () => {
   test('renders correctly', () => {
     const { $children } = shallowMount(Footer).vm;
     $children
-      .map((e) => e.$el.tagName.toLowerCase() === 'a')
+      .map((e) => e.$el.tagName.toLowerCase() in ['a'])
       .forEach((e) => expect(e).toBeTruthy());
   });
 });
