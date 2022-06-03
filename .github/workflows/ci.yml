@@ -23,6 +23,7 @@ on:
     branches:
       - rewrite
       - master
+  workflow_dispatch:
 
 jobs:
   prep:
