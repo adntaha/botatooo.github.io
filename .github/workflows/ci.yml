@@ -26,15 +26,14 @@ on:
   workflow_dispatch:
 
 jobs:
-  prep:
-    name: Install dependencies
+  ci:
+    name: Continous Integration (CI)
     runs-on: ${{ matrix.os }}
     environment: production
 
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [16]
 
     steps:
       - name: Checkout 🛎
@@ -67,25 +66,6 @@ jobs:
       - name: Install dependencies 👨🏻‍💻
         run: yarn
 
-  ci:
-    name: Continous Integration
-    runs-on: ${{ matrix.os }}
-    needs: prep
-    environment: production
-
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-
-    steps:
-      - name: Checkout 🛎
-        uses: actions/checkout@master
-        with:
-          ref: ${{ env.GITHUB_REF }}
-
-      - name: Install YARN 🐈
-        run: npm install --location=global yarn
-
       - name: Run linter 👀
         continue-on-error: true
         run: yarn lint
@@ -94,7 +74,7 @@ jobs:
         run: yarn test
 
   fix-lint:
-    name: Repair all of the linter issues
+    name: Fix linter issues
     needs: ci
     runs-on: ${{ matrix.os }}
     environment: production
@@ -109,15 +89,30 @@ jobs:
         with:
           ref: ${{ env.GITHUB_REF }}
 
-      - name: Restore node_modules 📦
+      - name: Setup node env 🏗
+        uses: actions/setup-node@main
+        with:
+          node-version: ${{ matrix.node }}
+          check-latest: true
+
+      - name: Get yarn cache directory path 🛠
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Cache node_modules 📦
         uses: actions/cache@main
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
 
       - name: Install YARN 🐈
         run: npm install --global yarn
+
+      - name: Install dependencies 👨🏻‍💻
+        run: yarn
 
       - name: Fix linter issues 📝
         run: yarn lintfix
