@@ -78,15 +78,20 @@ jobs:
         os: [ubuntu-latest]
 
     steps:
+      - name: Checkout 🛎
+        uses: actions/checkout@master
+        with:
+          ref: ${{ env.GITHUB_REF }}
+
       - name: Install YARN 🐈
         run: npm install --location=global yarn
 
       - name: Run linter 👀
         continue-on-error: true
-        run: yarn run lint
+        run: yarn lint
 
       - name: Run tests 🧪
-        run: yarn run test
+        run: yarn test
 
   fix-lint:
     name: Repair all of the linter issues
@@ -99,8 +104,13 @@ jobs:
         os: [ubuntu-latest]
 
     steps:
+      - name: Checkout 🛎
+        uses: actions/checkout@master
+        with:
+          ref: ${{ env.GITHUB_REF }}
+
       - name: Install YARN 🐈
         run: npm install --global yarn
 
       - name: Fix linter issues 📝
-        run: yarn run lintfix
+        run: yarn lintfix
