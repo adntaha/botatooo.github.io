@@ -28,7 +28,7 @@ jobs:
   prep:
     name: Install dependencies
     runs-on: ${{ matrix.os }}
-    environement: production
+    environment: production
 
     strategy:
       matrix:
@@ -68,7 +68,7 @@ jobs:
     name: Continous Integration
     runs-on: ${{ matrix.os }}
     needs: prep
-    environement: production
+    environment: production
 
     strategy:
       matrix:
@@ -89,7 +89,7 @@ jobs:
     name: Repair all of the linter issues
     needs: ci
     runs-on: ${{ matrix.os }}
-    environement: production
+    environment: production
 
     strategy:
       matrix:
