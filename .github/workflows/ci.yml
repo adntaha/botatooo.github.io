@@ -79,7 +79,7 @@ jobs:
 
     steps:
       - name: Install YARN 🐈
-        run: npm install --global yarn
+        run: npm install --location=global yarn
 
       - name: Run linter 👀
         continue-on-error: true
