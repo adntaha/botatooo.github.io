@@ -39,6 +39,8 @@ jobs:
     steps:
       - name: Checkout 🛎
         uses: actions/checkout@master
+        with:
+          ref: ${{ GITHUB_REF }}
 
       - name: Setup node env 🏗
         uses: actions/setup-node@main
