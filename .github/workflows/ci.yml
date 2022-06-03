@@ -17,11 +17,11 @@ name: ci
 on:
   push:
     branches:
-      - main
+      - rewrite
       - master
   pull_request:
     branches:
-      - main
+      - rewrite
       - master
 
 jobs:
