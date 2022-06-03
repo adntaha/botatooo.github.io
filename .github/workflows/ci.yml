@@ -109,6 +109,13 @@ jobs:
         with:
           ref: ${{ env.GITHUB_REF }}
 
+      - name: Restore node_modules 📦
+        uses: actions/cache@main
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
       - name: Install YARN 🐈
         run: npm install --global yarn
 
