@@ -16,7 +16,20 @@ If not, see <https://www.gnu.org/licenses/>.
 
 <template>
   <footer class="footer">
-
+    <a v-for="(item, index) in social" :key="index" :href="item.url">
+      <octicons
+        v-if="item.icon.source === 'octicons'"
+        :name="item.icon.identifier"
+        size="24"
+      />
+      <span
+        v-else-if="item.icon.source === 'material'"
+        class="material-icons"
+        >{{ item.icon.identifier }}</span
+      >
+      <img v-else :src="item.icon.identifier" />
+      {{ item.name }}
+    </a>
   </footer>
 </template>
 
@@ -26,7 +39,7 @@ import Vue from 'vue';
 export default Vue.extend({
   name: 'FooterBar',
   async asyncData({ $content }) {
-
+    return await $content('social')
   }
 });
 </script>
