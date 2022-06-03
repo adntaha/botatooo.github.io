@@ -83,10 +83,10 @@ jobs:
 
       - name: Run linter 👀
         continue-on-error: true
-        run: yarn lint
+        run: yarn run lint
 
       - name: Run tests 🧪
-        run: yarn test
+        run: yarn run test
 
   fix-lint:
     name: Repair all of the linter issues
@@ -103,4 +103,4 @@ jobs:
         run: npm install --global yarn
 
       - name: Fix linter issues 📝
-        run: yarn lintfix
+        run: yarn run lintfix
